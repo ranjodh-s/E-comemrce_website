@@ -7,20 +7,23 @@ import bcrypt from 'bcrypt';
 import session from 'express-session';
 import { fileURLToPath } from 'url';
 import nodemailer from 'nodemailer';
-
+import dotenv from "dotenv";
 import multer from 'multer';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+
+dotenv.config();
 const db = new pg.Client({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'E-commerce',
-  password: 'postgre',
-  port: 5432,
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
-await db.connect();
+
+db.connect();
+
 
 const port = 3000;
 const app = express();
@@ -162,7 +165,7 @@ app.post('/forgot-password', async (req, res) => {
   // ✅ Send OTP via email
   const transporter = nodemailer.createTransport({
     service: 'gmail',
-    auth: { user: 'rnjodh039@gmail.com', pass: 'jich ovmg tmta ifrm' }
+    auth: { user: process.env.EMAIL_USER , pass: process.env.EMAIL_PASS }
   });
 
   await transporter.sendMail({
@@ -1009,13 +1012,13 @@ app.post('/seller/forgot-password', async (req, res) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'rnjodh039@gmail.com',
-      pass: 'jich ovmg tmta ifrm'
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
     }
   });
 
   await transporter.sendMail({
-    from: 'rnjodh039@gmail.com',
+    from: process.env.EMAIL_USER,
     to: email,
     subject: 'Your Seller OTP',
     html: `<p>Your OTP is: <b>${otp}</b>. It expires in 5 minutes.</p>`
