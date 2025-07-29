@@ -1,0 +1,56 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand fw-bold" href="/home">MyShop</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="/home">Home</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/categories">Categories</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/cart">Cart</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/orders">Orders</a>
+        </li>
+        <li class="nav-item">
+  <a class="nav-link" href="/account">Account</a>
+</li>
+         <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            Seller
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/seller/signup">Become a Seller</a></li>
+            <li><a class="dropdown-item" href="/seller/login">Seller Login</a></li>
+          </ul>
+        </li> 
+        <li class="nav-item">
+
+          <% if(locals.login===true){ %>
+            <a class="nav-link" href="/logout">Logout</a>
+
+          <% }else{ %>
+
+          <a class="nav-link" href="/login">login</a>
+          <% } %>
+        </li>
+       
+      </ul>
+
+      
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <%- include('searchbox.ejs') %>
+</div>

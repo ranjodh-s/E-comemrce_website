@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container mt-5 text-center">
+  <h2>❌ Payment Failed!</h2>
+  <% if (cart) { %>
+    <p>Your cart payment failed. No items were ordered.</p>
+  <% } else { %>
+    <p>Your payment for the product failed.</p>
+  <% } %>
+  <a href="/cart" class="btn btn-secondary mt-3">🔙 Back to Cart</a>
+</div>
+
+</body>
+</html>

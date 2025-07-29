@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <div class="container mt-5 text-center">
+  <h2>🎉 Payment Successful!</h2>
+  <% if (cart) { %>
+    <p>All items in your cart have been ordered successfully!</p>
+  <% } else { %>
+    <p>Your order has been placed successfully.</p>
+  <% } %>
+  <a href="/orders" class="btn btn-primary mt-3">📦 View My Orders</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= product.name %> | Product Details</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<%- include('partials/navbar') %>
+
+  <div class="container my-5">
+    <a href="/home" class="btn btn-secondary mb-4">← Back to Home</a>
+
+    <div class="row g-4">
+      <!-- Product Image -->
+      <div class="col-md-5">
+        <img src="<%= product.image_url %>" alt="<%= product.name %>" class="img-fluid rounded shadow-sm" onerror="this.src='https://via.placeholder.com/400x400?text=No+Image';">
+      </div>
+
+      <!-- Product Details -->
+      <div class="col-md-7">
+        <h2><%= product.name %></h2>
+        <p class="text-muted mb-1">Brand: <strong><%= product.brand %></strong></p>
+        <p class="text-muted mb-3">Category: <%= product.category %></p>
+
+        <p><%= product.description %></p>
+
+        <h4 class="text-success">
+          <%= product.currency %> <%= product.price %>
+        </h4>
+
+        <p>Size: <%= product.size %></p>
+        <p>Color: <%= product.color %></p>
+        <p>Stock: <%= product.stock %> available</p>
+        <p>Status: 
+          <span class="badge <%= product.availability ? 'bg-success' : 'bg-danger' %>">
+            <%= product.availability ? 'Available' : 'Out of Stock' %>
+          </span>
+        </p>
+
+       <div class="mt-4 d-flex gap-3">
+  <button onclick="addToCart(<%= product.id %>)" class="btn btn-outline-primary">Add to Cart</button>
+
+
+  <form action="/start-payment" method="POST">
+  <input type="hidden" name="product_id" value="<%= product.id %>">
+  <input type="hidden" name="quantity" value="1">
+  <button type="submit" class="btn btn-primary">💳 Pay Now</button>
+</form>
+
+
+</div>
+
+      </div>
+    </div>
+  </div>
+ <script>
+  async function addToCart(productId) {
+    let login='<%= locals.login %>'
+    console.log(login)
+    if(login=='true'){
+    try {
+      const res = await fetch('/cart/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ product_id: productId })
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        alert('✅ Item added to cart!');
+      } else {
+        alert('❌ Failed to add item to cart.');
+      }
+    } catch (err) {
+      console.error('Error adding to cart:', err);
+      alert('⚠️ Error occurred while adding to cart.');
+    }
+  }
+  else{
+    alert("Please log in for adding to cart.")
+  }
+  }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

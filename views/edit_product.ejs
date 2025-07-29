@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <%- include('partials/seller-navbar.ejs') %>
+    <div class="container mt-5">
+  <h2 class="mb-4">✏ Edit Product</h2>
+
+  <form action="/seller/edit-product/<%= product.id %>" method="POST" enctype="multipart/form-data">
+    
+    <!-- Product Name -->
+    <div class="mb-3">
+      <label>Product Name</label>
+      <input type="text" name="name" class="form-control" value="<%= product.name %>" required>
+    </div>
+
+    <!-- Description -->
+    <div class="mb-3">
+      <label>Description</label>
+      <textarea name="description" class="form-control" required><%= product.description %></textarea>
+    </div>
+
+    <!-- Category -->
+    <div class="mb-3">
+      <label>Category</label>
+      <input type="text" name="category" class="form-control" value="<%= product.category %>" required>
+    </div>
+
+    <!-- Price -->
+    <div class="mb-3">
+      <label>Price</label>
+      <input type="number" name="price" step="0.01" class="form-control" value="<%= product.price %>" required>
+    </div>
+
+    <!-- Stock -->
+    <div class="mb-3">
+      <label>Stock</label>
+      <input type="number" name="stock" class="form-control" value="<%= product.stock %>" required>
+    </div>
+
+    <!-- Color -->
+    <div class="mb-3">
+      <label>Color</label>
+      <input type="text" name="color" class="form-control" value="<%= product.color %>">
+    </div>
+
+    <!-- Size -->
+    <div class="mb-3">
+      <label>Size</label>
+      <input type="text" name="size" class="form-control" value="<%= product.size %>">
+    </div>
+
+    <!-- Availability -->
+    <div class="mb-3">
+      <label>Availability</label>
+      <select name="availability" class="form-control" required>
+        <option value="true" <%= product.availability ? "selected" : "" %>>Available</option>
+        <option value="false" <%= !product.availability ? "selected" : "" %>>Out of Stock</option>
+      </select>
+    </div>
+
+    <!-- Product Image -->
+    <div class="mb-3">
+      <label for="image" class="form-label">Upload Product Image</label><br>
+      <img src="<%= product.image_url ? product.image_url : 'https://placehold.co/150x150?text=No+Image' %>" 
+           alt="<%= product.name %>" 
+           style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">
+      <input type="file" name="image" class="form-control mt-2" accept="image/*">
+      <small class="text-muted">Leave blank if you don’t want to change the image</small>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+    <a href="/seller/dashboard" class="btn btn-secondary">↩ Back</a>
+  </form>
+</div>
+
+
+</body>
+</html>

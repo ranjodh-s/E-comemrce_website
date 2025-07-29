@@ -1,0 +1,97 @@
+<!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+<script>
+    const uid = "<%= locals.uid %>";
+    const buttons = document.querySelectorAll('.add-to-cart');
+
+    buttons.forEach(button => {
+        if (button.hasAttribute('data-product-id')) {
+            button.addEventListener('click', async () => {
+                const productId = button.getAttribute('data-product-id');
+
+                try {
+                    const res = await axios.post('/add-to-cart', { pid: productId, uid });
+                    console.log(`Added product ${productId} to cart:`, res.data);
+                } catch (err) {
+                    console.error(`Failed to add product ${productId}:`, err);
+                }
+            });
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+    window.submitPostForm=function(event) {
+        event.preventDefault(); // Prevent the <a> tag from trying to follow the href
+        document.getElementById("myForm").submit();
+    }
+  });
+    // function submitPostForm(event) {
+    //     event.preventDefault(); // Prevent the <a> tag from trying to follow the href
+    //     document.getElementById("myForm").submit();
+    // }
+
+
+    async function searchProduct() {
+        const query = document.getElementById('searchInput').value;
+
+        if (query.trim() === "") {
+            document.getElementById('results').innerHTML = "<p>Please enter a search term.</p>";
+            return;
+        }
+
+        try {
+            const response = await axios.get(`/search?query=${encodeURIComponent(query)}`);
+            const products = response.data;
+
+            if (products.length === 0) {
+                document.getElementById('results').innerHTML = "<p>No products found.</p>";
+            } else {
+                let resultHTML = products.map(p => `<p>${p.name}</p>`).join('');
+                document.getElementById('results').innerHTML = resultHTML;
+            }
+        } catch (error) {
+            console.error('Search error:', error);
+            document.getElementById('results').innerHTML = "<p>Error fetching results.</p>";
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const buttons = document.querySelectorAll('.delete-cart-item');
+
+        buttons.forEach(button => {
+            if (button.hasAttribute('cart-id')) {
+                button.addEventListener('click', async () => {
+                    const cart_id = button.getAttribute('cart-id');
+
+                    fetch('/delete-cart', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ cart_id }),
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            console.log(data);
+                            // Optionally remove the item from DOM
+                            // button.closest('.cart-item').remove();
+                        })
+                        .catch(err => console.error(err));
+                });
+            }
+        });
+    });
+
+
+</script>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</body>
+
+</html>
